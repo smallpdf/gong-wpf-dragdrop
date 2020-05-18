@@ -43,8 +43,11 @@ namespace GongSolutions.Wpf.DragDrop
         /// <param name="eventType">
         /// The type of the underlying event (tunneled or bubbled).
         /// </param>
-        public DropInfo(object sender, DragEventArgs e, [CanBeNull] DragInfo dragInfo, EventType eventType)
+        public DropInfo(object sender, DragEventArgs e, [CanBeNull] DragInfo dragInfo, EventType eventType, 
+                            VisualTargetInfo visualTargetInfo)   // Smallpdf
         {
+            this.VisualTargetInfo = new VisualTargetInfo();
+            ReflectionUtilities.Clone(visualTargetInfo, this.VisualTargetInfo);  // Smallpdf
             this.DragInfo = dragInfo;
             this.KeyStates = e.KeyStates;
             this.EventType = eventType;
@@ -141,6 +144,9 @@ namespace GongSolutions.Wpf.DragDrop
                     var expandedTVItem = tvItem != null && tvItem.HasHeader && tvItem.HasItems && tvItem.IsExpanded;
                     var itemRenderSize = expandedTVItem ? tvItem.GetHeaderSize() : item.RenderSize;
 
+                    if (this.VisualTargetInfo.ForceVisualTargetOrientationHorizontal)   // Smallpdf
+                        this.VisualTargetOrientation = Orientation.Horizontal;   // Smallpdf
+
                     if (this.VisualTargetOrientation == Orientation.Vertical)
                     {
                         var currentYPos = e.GetPosition(item).Y;
@@ -148,6 +154,7 @@ namespace GongSolutions.Wpf.DragDrop
 
                         var topGap = targetHeight * 0.25;
                         var bottomGap = targetHeight * 0.75;
+
                         if (currentYPos > targetHeight / 2)
                         {
                             if (expandedTVItem && (currentYPos < topGap || currentYPos > bottomGap))
@@ -179,6 +186,7 @@ namespace GongSolutions.Wpf.DragDrop
                             this.InsertPosition |= RelativeInsertPosition.TargetItemCenter;
                         }
                         //System.Diagnostics.Debug.WriteLine("==> DropInfo: pos={0}, idx={1}, Y={2}, Item={3}", this.InsertPosition, this.InsertIndex, currentYPos, item);
+
                     }
                     else
                     {
@@ -199,15 +207,15 @@ namespace GongSolutions.Wpf.DragDrop
                         }
                         else if (this.VisualTargetFlowDirection == FlowDirection.LeftToRight)
                         {
-                            if (currentXPos > targetWidth / 2)
+                            /*if (currentXPos > targetWidth / 2)   // Smallpdf commented - maybe put back?
                             {
                                 this.InsertIndex++;
                                 this.InsertPosition = RelativeInsertPosition.AfterTargetItem;
                             }
                             else
-                            {
-                                this.InsertPosition = RelativeInsertPosition.BeforeTargetItem;
-                            }
+                            {*/
+                            this.InsertPosition = RelativeInsertPosition.BeforeTargetItem;
+                            //}
                         }
 
                         if (currentXPos > targetWidth * 0.25 && currentXPos < targetWidth * 0.75)
@@ -217,8 +225,9 @@ namespace GongSolutions.Wpf.DragDrop
                                 this.TargetCollection = tvItem.ItemsSource ?? tvItem.Items;
                                 this.InsertIndex = this.TargetCollection != null ? this.TargetCollection.OfType<object>().Count() : 0;
                             }
-                            this.InsertPosition |= RelativeInsertPosition.TargetItemCenter;
+                            //this.InsertPosition |= RelativeInsertPosition.TargetItemCenter;   // Smallpdf commented - maybe put back?
                         }
+
                         //System.Diagnostics.Debug.WriteLine("==> DropInfo: pos={0}, idx={1}, X={2}, Item={3}", this.InsertPosition, this.InsertIndex, currentXPos, item);
                     }
                 }
@@ -314,6 +323,8 @@ namespace GongSolutions.Wpf.DragDrop
         /// <inheritdoc />
         public Orientation VisualTargetOrientation { get; private set; }
 
+        public VisualTargetInfo VisualTargetInfo { get; set; }   // Smallpdf
+
         /// <inheritdoc />
         public FlowDirection VisualTargetFlowDirection { get; private set; }
 
@@ -361,6 +372,8 @@ namespace GongSolutions.Wpf.DragDrop
 
         /// <inheritdoc />
         public EventType EventType { get; }
+
+        public bool GoingToDropNow { get; set; }
     }
 
     [Flags]

@@ -105,6 +105,9 @@ namespace GongSolutions.Wpf.DragDrop
         /// </summary>
         Orientation VisualTargetOrientation { get; }
 
+
+        public VisualTargetInfo VisualTargetInfo { get; set; }  //   Smallpdf
+
         /// <summary>
         /// Gets the FlowDirection of the current drop target.
         /// </summary>
@@ -144,5 +147,7 @@ namespace GongSolutions.Wpf.DragDrop
         /// Gets the current mode of the underlying routed event.
         /// </summary>
         EventType EventType { get; }
+
+        bool GoingToDropNow { get; set; }    // Smallpdf
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -121,11 +122,12 @@ namespace GongSolutions.Wpf.DragDrop
                 case DragDropEffects.Scroll:
                     // TODO: Add default template EffectScroll
                     return GetEffectScrollAdornerTemplate(target);
+
                 default:
                     return null;
             }
         }
-
+        
         private static DataTemplate CreateDefaultEffectDataTemplate(UIElement target, BitmapImage effectIcon, string effectText, string destinationText)
         {
             if (!GetUseDefaultEffectDataTemplate(target))
@@ -508,12 +510,28 @@ namespace GongSolutions.Wpf.DragDrop
             DropTargetOnDragOver(sender, e, EventType.Tunneled);
         }
 
+        static int count = 0;
+
         private static void DropTargetOnDragOver(object sender, DragEventArgs e, EventType eventType)
         {
+            count++;
+            Debug.WriteLine("At top of DropTargetOnDragOver: " + count);
+
             var elementPosition = e.GetPosition((IInputElement)sender);
 
+
+            var visualTargetInfo = new VisualTargetInfo()   // Smallpdf
+            {
+                ForceVisualTargetOrientationHorizontal = DragDrop.GetForceVisualTargetOrientationHoriz(m_DragInfo.VisualSource),   // Smallpdf
+                UseImprovedVisualTargetInsertLine = DragDrop.GetUseImprovedVisualTargetInsertLine(m_DragInfo.VisualSource),   // Smallpdf
+                VerticalInsertLineTop = DragDrop.GetVerticalInsertLineTop(m_DragInfo.VisualSource),
+                VerticalInsertLineHeight = DragDrop.GetVerticalInsertLineHeight(m_DragInfo.VisualSource),
+                HorizontalInsertLineLeft = DragDrop.GetHorizontalInsertLineLeft(m_DragInfo.VisualSource),
+                HorizontalInsertLineWidth = DragDrop.GetHorizontalInsertLineWidth(m_DragInfo.VisualSource)
+            };
+
             var dragInfo = m_DragInfo;
-            var dropInfo = new DropInfo(sender, e, dragInfo, eventType);
+            var dropInfo = new DropInfo(sender, e, dragInfo, eventType, visualTargetInfo);   // Smallpdf
             var dropHandler = TryGetDropHandler(dropInfo, sender as UIElement);
             var itemsControl = dropInfo.VisualTarget;
 
@@ -612,7 +630,7 @@ namespace GongSolutions.Wpf.DragDrop
         private static void DropTargetOnDrop(object sender, DragEventArgs e, EventType eventType)
         {
             var dragInfo = m_DragInfo;
-            var dropInfo = new DropInfo(sender, e, dragInfo, eventType);
+            var dropInfo = new DropInfo(sender, e, dragInfo, eventType, new VisualTargetInfo());   // Smallpdf
             var dropHandler = TryGetDropHandler(dropInfo, sender as UIElement);
             var dragHandler = TryGetDragHandler(dragInfo, sender as UIElement);
 
@@ -620,6 +638,7 @@ namespace GongSolutions.Wpf.DragDrop
             EffectAdorner = null;
             DropTargetAdorner = null;
 
+            dropInfo.GoingToDropNow = true;   // Smallpdf
             dropHandler.DragOver(dropInfo);
             dropHandler.Drop(dropInfo);
             dragHandler.Dropped(dropInfo);

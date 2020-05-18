@@ -304,6 +304,118 @@ namespace GongSolutions.Wpf.DragDrop
             target.SetValue(CanDragWithMouseRightButtonProperty, value);
         }
 
+        // Smallpdf
+        public static readonly DependencyProperty ForceVisualTargetOrientationHorizProperty
+           = DependencyProperty.RegisterAttached("ForceVisualTargetOrientationHoriz",
+                                                 typeof(bool),
+                                                 typeof(DragDrop),
+                                                 new UIPropertyMetadata(false, null));
+
+        public static bool GetForceVisualTargetOrientationHoriz(UIElement target)
+        {
+            return (bool)target.GetValue(ForceVisualTargetOrientationHorizProperty);
+        }
+
+        public static void SetForceVisualTargetOrientationHoriz(UIElement target, bool value)
+        {
+            target.SetValue(ForceVisualTargetOrientationHorizProperty, value);
+        }
+
+        //--------------------------
+        // Smallpdf
+        public static readonly DependencyProperty UseImprovedVisualTargetInsertLineProperty
+           = DependencyProperty.RegisterAttached("UseImprovedVisualTargetInsertLine",
+                                                 typeof(bool),
+                                                 typeof(DragDrop),
+                                                 new UIPropertyMetadata(false, null));
+
+        public static bool GetUseImprovedVisualTargetInsertLine(UIElement target)
+        {
+            return (bool)target.GetValue(UseImprovedVisualTargetInsertLineProperty);
+        }
+
+        public static void SetUseImprovedVisualTargetInsertLine(UIElement target, bool value)
+        {
+            target.SetValue(UseImprovedVisualTargetInsertLineProperty, value);
+        }
+
+        //--------------------------
+        // Smallpdf
+        public static readonly DependencyProperty VerticalInsertLineTopProperty
+           = DependencyProperty.RegisterAttached("VerticalInsertLineTop",
+                                                 typeof(int),
+                                                 typeof(DragDrop),
+                                                 new UIPropertyMetadata(24 + 40, null));
+
+        public static int GetVerticalInsertLineTop(UIElement target)
+        {
+            return (int)target.GetValue(VerticalInsertLineTopProperty);
+        }
+
+        public static void SetVerticalInsertLineTop(UIElement target, int value)
+        {
+            target.SetValue(VerticalInsertLineTopProperty, value);
+        }
+
+        //--------------------------
+        //--------------------------
+        //--------------------------
+        // Smallpdf
+        public static readonly DependencyProperty VerticalInsertLineHeightProperty
+           = DependencyProperty.RegisterAttached("VerticalInsertLineHeight",
+                                                 typeof(int),
+                                                 typeof(DragDrop),
+                                                 new UIPropertyMetadata(96, null));   // Verified orig. design Zeplin
+
+        public static int GetVerticalInsertLineHeight(UIElement target)
+        {
+            return (int)target.GetValue(VerticalInsertLineHeightProperty);
+        }
+
+        public static void SetVerticalInsertLineHeight(UIElement target, int value)
+        {
+            target.SetValue(VerticalInsertLineHeightProperty, value);
+        }
+
+        //--------------------------
+        // Smallpdf
+        public static readonly DependencyProperty HorizontalInsertLineLeftProperty
+           = DependencyProperty.RegisterAttached("HorizontalInsertLineLeft",
+                                                 typeof(int),
+                                                 typeof(DragDrop),
+                                                 new UIPropertyMetadata(21+0, null));
+
+        public static int GetHorizontalInsertLineLeft(UIElement target)
+        {
+            return (int)target.GetValue(HorizontalInsertLineLeftProperty);
+        }
+
+        public static void SetHorizontalInsertLineLeft(UIElement target, int value)
+        {
+            target.SetValue(HorizontalInsertLineLeftProperty, value);
+        }
+
+        //--------------------------
+        // Smallpdf
+        public static readonly DependencyProperty HorizontalInsertLineWidthProperty
+           = DependencyProperty.RegisterAttached("HorizontalInsertLineWidth",
+                                                 typeof(int),
+                                                 typeof(DragDrop),
+                                                 new UIPropertyMetadata(96, null));   // Verified orig. design Zeplin
+
+        public static int GetHorizontalInsertLineWidth(UIElement target)
+        {
+            return (int)target.GetValue(HorizontalInsertLineWidthProperty);
+        }
+
+        public static void SetHorizontalInsertLineWidth(UIElement target, int value)
+        {
+            target.SetValue(HorizontalInsertLineWidthProperty, value);
+        }
+
+        //--------------------------
+        //--------------------------
+
         private static void CanDragWithMouseRightButtonChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var uiElement = (UIElement)d;
