@@ -13,6 +13,9 @@ namespace GongSolutions.Wpf.DragDrop.Utilities
 
         public static void Clone(object origin, object destination, List<string> propNamesToIgnore = null)
         {
+            if (origin == null || destination == null)
+                return;
+
             var properties = origin.GetType().GetRuntimeProperties();
             var destProperties = destination.GetType().GetRuntimeProperties();
             foreach (var property in properties)

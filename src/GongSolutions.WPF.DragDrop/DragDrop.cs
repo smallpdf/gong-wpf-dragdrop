@@ -519,16 +519,17 @@ namespace GongSolutions.Wpf.DragDrop
 
             var elementPosition = e.GetPosition((IInputElement)sender);
 
-
-            var visualTargetInfo = new VisualTargetInfo()   // Smallpdf
-            {
-                ForceVisualTargetOrientationHorizontal = DragDrop.GetForceVisualTargetOrientationHoriz(m_DragInfo.VisualSource),   // Smallpdf
-                UseImprovedVisualTargetInsertLine = DragDrop.GetUseImprovedVisualTargetInsertLine(m_DragInfo.VisualSource),   // Smallpdf
-                VerticalInsertLineTop = DragDrop.GetVerticalInsertLineTop(m_DragInfo.VisualSource),
-                VerticalInsertLineHeight = DragDrop.GetVerticalInsertLineHeight(m_DragInfo.VisualSource),
-                HorizontalInsertLineLeft = DragDrop.GetHorizontalInsertLineLeft(m_DragInfo.VisualSource),
-                HorizontalInsertLineWidth = DragDrop.GetHorizontalInsertLineWidth(m_DragInfo.VisualSource)
-            };
+            VisualTargetInfo visualTargetInfo = null;
+            if (m_DragInfo != null)
+                visualTargetInfo = new VisualTargetInfo()   // Smallpdf
+                {
+                    ForceVisualTargetOrientationHorizontal = DragDrop.GetForceVisualTargetOrientationHoriz(m_DragInfo.VisualSource),   // Smallpdf
+                    UseImprovedVisualTargetInsertLine = DragDrop.GetUseImprovedVisualTargetInsertLine(m_DragInfo.VisualSource),   // Smallpdf
+                    VerticalInsertLineTop = DragDrop.GetVerticalInsertLineTop(m_DragInfo.VisualSource),
+                    VerticalInsertLineHeight = DragDrop.GetVerticalInsertLineHeight(m_DragInfo.VisualSource),
+                    HorizontalInsertLineLeft = DragDrop.GetHorizontalInsertLineLeft(m_DragInfo.VisualSource),
+                    HorizontalInsertLineWidth = DragDrop.GetHorizontalInsertLineWidth(m_DragInfo.VisualSource)
+                };
 
             var dragInfo = m_DragInfo;
             var dropInfo = new DropInfo(sender, e, dragInfo, eventType, visualTargetInfo);   // Smallpdf
